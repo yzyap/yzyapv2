@@ -1,0 +1,100 @@
+{% extends 'streamapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id = "containerWindow" class="grid-container">
+  <div id = "codeWindow" class="grid-item code_container">
+
+   <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'pythontab')">Python</button>
+      <button class="tablinks" onclick="openTab(event, 'yztab')">Yapay Zeka</button>   
+      <button class="tablinks" onclick="openTab(event, 'yzconsole')">Console</button>   
+      <div style="float:right">
+        <button id="runButton" class="notext primary" title="...">
+          <img src="{% static "/media/run.png" %}" class="run icon21">
+        </button>
+        <button id="saveButton" class="notext primary" title="Save">
+          <img src="{% static "/media/save.png" %}" class="save icon22">
+        </button> 
+
+        <label for="files" style="text-align: center;">
+          <img src="{% static "/media/load.png" %}" class="load icon22">
+        </label>
+        <input id="files" type="file" name="files" accept="application/xml" style="display:none">           
+        <button id="trashButton" class="notext" title="...">
+          <img src="{% static "/media/trash.png" %}" class="trash icon21">
+        </button>
+      </div>         
+    </div>
+    
+    <!-- Tab content -->
+    <div id="pythontab" class="codewindow_tabcontent">
+      <div id="editor" style="height: 100%; width: 100%;">       
+      </div>    
+    </div>
+
+    <div id="yztab" class="codewindow_tabcontent">
+      yz modelleri için veri topla..
+    </div>
+
+    <div id="yzconsole" class="codewindow_tabcontent">
+      >> Console is here
+    </div>
+
+  </div>
+  <div id = "videoWindow" class="grid-item video_container">
+    <div class = "tab" id="tabButton" style="padding:5px">
+      <button id='startAndStop' disabled>Run</button>
+    </div> 
+    <video id='v' width=640 height=480 playsinline autoplay></video>
+  </div>
+  <div id = "settingsWindow" class="grid-item settings_container camview">
+    <div class = "tab"  id="tabButton" style="padding:10px">
+      <button class="setting_tablinks active" onclick="openSettingTab(event, 'harekettab')">Hareket</button> 
+    </div>  
+
+    <!-- Tab content -->
+    <div id="harekettab" class="settingwindow_tabcontent">
+      <div id="hareketDiv" style="height: 100%; width: 100%;">
+        <!--{% include "streamapp/robot_hareket.html" %}      -->
+        <canvas id="canvasOutput" width=640 height=480></canvas>
+      </div>      
+    </div>  
+  </div>  
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+
+<!-- Import TensorFlow.js library -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+
+<!-- Load the coco-ssd model to use to recognize things in images -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+
+<script async src = "{% static "/js/app/opencv.js" %}" onload="onOpenCvReady();" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="{% static "/js/webrtc/webrtc.js" %}"></script>
+<script src="{% static "/js/webrtc/signalling.js" %}"></script>
+<script src="{% static "/js/webrtc/adapter.js" %}"></script>
+<script type="text/javascript" src = "{% static "/js/app/utils.js" %}"></script>
+<script type="text/javascript" src = "{% static "/js/app/index.js" %}"></script>
+<script type="text/javascript" src = "{% static "/js/app/robotHareket.js" %}"></script>
+
+<script type="text/javascript" src = "{% static "/js/codemirror/codemirror-javascript.js" %}"></script>
+<script type="text/javascript" src = "{% static "/js/codemirror/codemirror.js" %}"></script>
+
+{% endblock %}
+
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/codemirror-railscasts.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/codemirror.css' %}">
+{% endblock %}
+
+
